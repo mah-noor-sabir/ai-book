@@ -1,30 +1,242 @@
 /**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
+ * Global CSS overrides for Docusaurus
+ * Supports both light and dark mode with modern, neon-inspired colors
  */
 
-/* You can override the default Infima variables here. */
+/* Light Mode Variables */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-color-primary: #25c2a0;
+  --ifm-color-primary-dark: #25c2a0;
+  --ifm-color-primary-darker: #25c2a0;
+  --ifm-color-primary-darkest: #25c2a0;
+  --ifm-color-primary-light: #25c2a0;
+  --ifm-color-primary-lighter: #25c2a0;
+  --ifm-color-primary-lightest: #25c2a0;
+
+  --ifm-navbar-background: linear-gradient(135deg,  rgba(7, 18, 71, 0.919));
+  --ifm-navbar-link-color:#25c2a0;
+  --ifm-navbar-link-hover-color: #25c2a0;
+
   --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --docusaurus-highlighted-code-line-bg: rgba(7, 18, 71, 0.919);
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
+/* Dark Mode Variables */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
+  --ifm-color-primary: #25c2a0; 
   --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
+  --ifm-color-primary-darker: #25c2a0;
+  --ifm-color-primary-darkest: #25c2a0;
   --ifm-color-primary-light: #29d5b0;
   --ifm-color-primary-lighter: #32d8b4;
   --ifm-color-primary-lightest: #4fddbf;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+
+  --ifm-navbar-background: rgba(7, 18, 71, 0.919);
+  --ifm-navbar-link-color: #ffffff;
+  
+
+  --docusaurus-highlighted-code-line-bg: rgba(7, 18, 71, 0.919);
+}
+
+/* Navbar Styling */
+.navbar {
+  box-shadow: 0 4px 12px  rgba(7, 18, 71, 0.919);
+  transition: all 0.3s ease;
+}
+
+.navbar__items .navbar__item a {
+  font-weight: 600;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.navbar__items .navbar__item a:hover {
+  color: var(--ifm-navbar-link-hover-color);
+  text-shadow: 0 0 8px var(--ifm-navbar-link-hover-color);
+}
+
+/* Navbar Title/Logo */
+.navbar__brand .navbar__title {
+  font-weight: 700;
+  color: var(--ifm-navbar-link-color);
+  text-shadow: 0 0 6px var(--ifm-navbar-link-color);
+}
+
+/* Optional: Add a subtle glow to buttons */
+.button {
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 8px 25px  rgba(7, 18, 71, 0.919);
+}
+
+/* Footer Container */
+.custom-footer {
+  background: linear-gradient(135deg, rgba(7, 18, 71, 0.95), rgba(0, 0, 0, 0.95));
+  color: #25c2a0;
+  padding: 40px 20px 20px 20px;
+  font-family: 'Arial', sans-serif;
+  text-align: left;
+}
+
+/* Footer Sections */
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.footer-section h4 {
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-shadow: 0 0 8px #25c2a0;
+}
+
+.footer-section p,
+.footer-section li {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #a0f0d1;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li a {
+  color: #25c2a0;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+  text-shadow: 0 0 8px #25c2a0;
+  color: #29d5b0;
+}
+
+/* Social Icons */
+.social-icons a {
+  color: #25c2a0;
+  margin-right: 15px;
+  font-size: 20px;
+  transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #29d5b0;
+  text-shadow: 0 0 12px #29d5b0;
+  transform: scale(1.1);
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 13px;
+  color: #7ef0cc;
+  border-top: 1px solid rgba(15, 6, 79, 0.942);
+  padding-top: 15px;
+}
+/* ----- Footer Base ----- */
+footer.footer {
+  padding: 40px 20px 20px 20px;
+  font-family: 'Arial', sans-serif;
+  text-align: left;
+  transition: all 0.3s ease;
+}
+
+/* ----- Dark Mode Footer ----- */
+[data-theme='dark'] footer.footer {
+  background: linear-gradient(135deg, rgba(7, 18, 71, 0.95), rgba(0, 0, 0, 0.95));
+  color: #25c2a0;
+}
+
+[data-theme='dark'] footer.footer a {
+  color: #25c2a0;
+}
+
+[data-theme='dark'] footer.footer a:hover {
+  color: #29d5b0;
+  text-shadow: 0 0 8px #29d5b0;
+}
+
+[data-theme='dark'] footer.footer .footer__title {
+  text-shadow: 0 0 8px #25c2a0;
+}
+
+[data-theme='dark'] footer.footer .footer__bottom {
+  color: #7ef0cc;
+  border-top: 1px solid rgba(37, 194, 160, 0.2);
+}
+
+/* ----- Light Mode Footer ----- */
+[data-theme='light'] footer.footer {
+  background: linear-gradient(135deg, #e0f7f1, #c6fff6);
+  color: #025e50;
+}
+
+[data-theme='light'] footer.footer a {
+  color: #025e50;
+}
+
+[data-theme='light'] footer.footer a:hover {
+  color: #008e7b;
+  text-shadow: 0 0 6px #008e7b;
+}
+
+[data-theme='light'] footer.footer .footer__title {
+  text-shadow: 0 0 6px #025e50;
+}
+
+[data-theme='light'] footer.footer .footer__bottom {
+  color: #05675b;
+  border-top: 1px solid rgba(2, 94, 80, 0.3);
+}
+
+/* ----- Common Footer Styling ----- */
+footer.footer .footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+footer.footer .footer__items li {
+  margin-bottom: 10px;
+}
+
+footer.footer .social-icons a {
+  margin-right: 15px;
+  font-size: 20px;
+  transition: all 0.3s ease;
+}
+
+[data-theme='dark'] footer.footer .social-icons a {
+  color: #25c2a0;
+}
+
+[data-theme='dark'] footer.footer .social-icons a:hover {
+  color: #29d5b0;
+  text-shadow: 0 0 12px #29d5b0;
+  transform: scale(1.1);
+}
+
+[data-theme='light'] footer.footer .social-icons a {
+  color: #025e50;
+}
+
+[data-theme='light'] footer.footer .social-icons a:hover {
+  color: #008e7b;
+  text-shadow: 0 0 8px #008e7b;
+  transform: scale(1.05);
+}
+
+footer.footer .footer__bottom {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 13px;
+  padding-top: 15px;
 }

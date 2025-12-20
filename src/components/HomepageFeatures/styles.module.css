@@ -1,11 +1,330 @@
-.features {
+/* styles.module.css */
+
+/* ===============================
+   HERO SECTION
+   =============================== */
+.hero {
   display: flex;
   align-items: center;
-  padding: 2rem 0;
-  width: 100%;
+  justify-content: center;
+  padding: 6rem 2rem;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
 }
 
-.featureSvg {
-  height: 200px;
-  width: 200px;
+/* Subtle gradient overlay for depth */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 20%, rgba(0, 255, 255, 0.15), transparent 60%),
+              radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.15), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===============================
+   GRID LAYOUT
+   =============================== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 3rem;
+  max-width: 1200px;
+  width: 100%;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===============================
+   TEXT SIDE
+   =============================== */
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.badge {
+  display: inline-block;
+  background: linear-gradient(90deg, #00ffe0, #8a00ff);
+  color: #fff;
+  font-weight: 700;
+  padding: 0.35rem 0.85rem;
+  border-radius: 1.2rem;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+}
+
+.title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 900;
+  line-height: 1.2;
+  text-shadow: 0 4px 20px rgba(0, 255, 255, 0.35), 0 0 20px rgba(138, 0, 255, 0.3);
+}
+
+.title span {
+  background: linear-gradient(90deg, #00ffe0, #8a00ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.description {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: #e0e0e0;
+  max-width: 500px;
+  text-shadow: 0 2px 15px rgba(0, 255, 255, 0.15);
+}
+
+/* ===============================
+   METRICS CARDS
+   =============================== */
+.metrics {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  justify-content: start;
+}
+
+.metrics div {
+  flex: 1 1 150px;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.25rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.metrics div:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 255, 255, 0.4);
+}
+
+.metrics strong {
+  font-size: 0.95rem;
+  color: #fff;
+}
+
+.metrics span {
+  font-size: 0.875rem;
+  color: #aaa;
+}
+
+/* ===============================
+   BUTTONS (Professional Transparent Style)
+   =============================== */
+.actions {
+  margin-top: 2.5rem;
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+/* Primary Button */
+.primaryBtn {
+  background: rgba(0, 255, 224, 0.15);
+  color: #00ffe0;
+  font-weight: 700;
+  padding: 0.85rem 1.8rem;
+  border-radius: 0.75rem;
+  border: 2px solid #00ffe0;
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 25px rgba(0, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.primaryBtn:hover {
+  background: rgba(0, 255, 224, 0.3);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 12px 35px rgba(0, 255, 255, 0.35);
+}
+
+/* Secondary Button */
+.secondaryBtn {
+  background: rgba(138, 0, 255, 0.1);
+  color: #8a00ff;
+  font-weight: 700;
+  padding: 0.85rem 1.8rem;
+  border-radius: 0.75rem;
+  border: 2px solid #8a00ff;
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 20px rgba(138, 0, 255, 0.15);
+  transition: all 0.3s ease;
+}
+
+.secondaryBtn:hover {
+  background: rgba(138, 0, 255, 0.25);
+  color: #fff;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 10px 30px rgba(138, 0, 255, 0.35);
+}
+
+/* ===============================
+   IMAGE SIDE
+   =============================== */
+.visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .frame {
+  max-width: 100%;
+  border-radius: 2rem;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+} */
+
+/* .frame img {
+  width: 1000%;
+  height: auto;
+  display: block;
+  transform: scale(1);
+  transition: transform 0.3s ease;
+}
+
+.frame:hover img {
+  transform: scale(1.05);
+} */
+
+/* ===============================
+   RESPONSIVE
+   =============================== */
+@media (max-width: 992px) {
+  .grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .metrics {
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .visual {
+    margin-top: 2rem;
+  }
+}
+
+/* Animated Image */
+.animatedImage {
+  width: 600%;
+  height: 600%;
+  display: block;
+  border-radius: 6rem;
+  animation: zoomInOut 20s ease-in-out infinite;
+}
+
+/* Keyframes for smooth zoom */
+@keyframes zoomInOut {
+  0%, 150% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.08);
+  }
+}
+
+/* Optional: smoother frame shadow while animating */
+/* .frame {
+  max-width: 100%;
+  border-radius: 2rem;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  transition: box-shadow 0.3s ease;
+} */
+
+/* ===============================
+   ROBOT / VISUAL ENHANCEMENTS
+   =============================== */
+
+/* Wrapper to give depth */
+.visual {
+  position: relative;
+}
+
+/* Glassmorphism frame upgrade */
+.frame {
+  position: relative;
+  padding: 2rem;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.12),
+    rgba(255, 255, 255, 0.03)
+  );
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 0 40px rgba(0, 255, 255, 0.25),
+    0 0 80px rgba(138, 0, 255, 0.25),
+    0 25px 70px rgba(0, 0, 0, 0.5);
+}
+
+/* Floating robot animation */
+.animatedImage {
+  animation: floatRobot 5s ease-in-out infinite;
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.4));
+}
+
+/* Floating motion */
+@keyframes floatRobot {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-14px) scale(1.03);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Glow ring behind robot */
+.frame::before {
+  content: '';
+  position: absolute;
+  inset: -50px;
+  border-radius: 70%;
+  background: radial-gradient(
+    circle,
+    rgba(0, 255, 255, 0.25),
+    rgba(138, 0, 255, 0.2),
+    transparent 65%
+  );
+  z-index: -1;
+  filter: blur(40px);
+}
+
+/* Tech halo ring */
+.frame::after {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  border: 1px dashed rgba(0, 255, 255, 0.35);
+  animation: rotateHalo 20s linear infinite;
+  pointer-events: none;
+}
+
+/* Halo rotation */
+@keyframes rotateHalo {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
