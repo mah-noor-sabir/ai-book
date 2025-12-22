@@ -19,17 +19,7 @@ const config = {
 
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'ur'],
-    localeConfigs: {
-      en: {
-        label: 'English',
-        direction: 'ltr',
-      },
-      ur: {
-        label: 'اردو',
-        direction: 'rtl',
-      },
-    },
+    locales: ['en'],
   },
 
   presets: [
@@ -40,8 +30,6 @@ const config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           routeBasePath: 'docs',
-          showLastUpdateTime: true,
-          showLastUpdateAuthor: true,
         },
         blog: false,
         theme: {
@@ -55,11 +43,9 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       image: 'img/docusaurus-social-card.jpg',
-
       colorMode: {
         respectPrefersColorScheme: true,
       },
-
       navbar: {
         title: 'AI Robotics Book',
         logo: {
@@ -68,20 +54,14 @@ const config = {
         },
         items: [
           {
-            type: 'doc',
-            docId: 'intro',
+            to: '/docs/intro',
             label: 'Explore the Book',
             position: 'left',
           },
           {
-            type: 'doc',
-            docId: 'intro',
-            label: 'Chapters',
+            to: '/docs/intro',
+            label: 'View Chapters',
             position: 'left',
-          },
-          {
-            type: 'localeDropdown',
-            position: 'right',
           },
           {
             href: 'https://github.com/your-org/ai-robotics-book',
@@ -90,7 +70,6 @@ const config = {
           },
         ],
       },
-
       footer: {
         style: 'dark',
         links: [
@@ -99,23 +78,11 @@ const config = {
             items: [
               {
                 label: 'Introduction',
-                to: '/docs',
+                to: '/docs/intro',
               },
               {
-                label: 'Module 1: Introduction to Physical AI',
-                to: '/docs/Module 1 - introduction-to-physical-ai/foundations-of-physical-ai-and-embodied-intelligence',
-              },
-              {
-                label: 'Module 2: Robotic Nervous System',
-                to: '/docs/Module 2 - Robotic-Nervous-System/robotic-nervous-system',
-              },
-              {
-                label: 'Module 3: Digital Twin',
-                to: '/docs/Module 3 -Digital Twin/introduction-to-digital-twins',
-              },
-              {
-                label: 'Module 4: The AI Robot Brain (NVIDIA Isaac)',
-                to: '/docs/Module_4_-_The_AI_Robot_Brain_NVIDIA_Isaac/introduction-to-isaac-ecosystem',
+                label: 'Chapters',
+                to: '/docs/intro',
               },
             ],
           },
@@ -131,7 +98,6 @@ const config = {
         ],
         copyright: `© ${new Date().getFullYear()} AI Robotics Book.`,
       },
-
       prism: {
         theme: prismThemes.github,
         darkTheme: prismThemes.dracula,

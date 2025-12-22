@@ -41,11 +41,11 @@ export default function HomepageHero() {
             </div>
 
             <div className={styles.actions}>
-              <Link className={`${styles.primaryBtn} button button--secondary button--lg`} to="/docs/intro">
+              <Link className={`${styles.primaryBtn} button button--secondary button--lg`} to="/docs">
                 Explore the Book
               </Link>
 
-              <Link className={`${styles.primaryBtn} button button--secondary button--lg`} to="/docs/intro">
+              <Link className={`${styles.primaryBtn} button button--secondary button--lg`} to="/docs">
                 View Chapters
               </Link>
 

@@ -1,0 +1,62 @@
+{
+  "theme.ErrorPageContent.title": {
+    "message": "صفحہ نہیں ملا",
+    "description": "The title of the 404 page"
+  },
+  "theme.ErrorPageContent.subtitle": {
+    "message": "یہ صفحہ دستیاب نہیں ہے۔",
+    "description": "The subtitle of the 404 page"
+  },
+  "theme.NotFound.title": {
+    "message": "صفحہ نہیں ملا",
+    "description": "The title of the 404 page"
+  },
+  "theme.NotFound.p1": {
+    "message": "جس صفحہ کو آپ تلاش کر رہے ہیں وہ موجود نہیں ہے۔",
+    "description": "The first paragraph of the 404 page"
+  },
+  "theme.NotFound.p2": {
+    "message": "براہ کرم ویب سائٹ کے منتظم سے رابطہ کریں تاکہ انہیں مسئلہ کے بارے میں مطلع کر سکیں۔",
+    "description": "The 2nd paragraph of the 404 page"
+  },
+  "theme.admonition.note": {
+    "message": "نوٹ",
+    "description": "The default label used for the Note admonition (:::note)"
+  },
+  "theme.admonition.tip": {
+    "message": "ٹپ",
+    "description": "The default label used for the Tip admonition (:::tip)"
+  },
+  "theme.admonition.danger": {
+    "message": "خطرہ",
+    "description": "The default label used for the Danger admonition (:::danger)"
+  },
+  "theme.admonition.info": {
+    "message": "معلومات",
+    "description": "The default label used for the Info admonition (:::info)"
+  },
+  "theme.admonition.caution": {
+    "message": "احتیاط",
+    "description": "The default label used for the Caution admonition (:::caution)"
+  },
+  "theme.NavBar.navAriaLabel": {
+    "message": "Navigation",
+    "description": "The ARIA label for the main navigation"
+  },
+  "theme.docs.sidebar.expand": {
+    "message": "سائڈ بار کو بڑھائیں",
+    "description": "The ARIA label and title attribute for expand button of doc sidebar"
+  },
+  "theme.docs.sidebar.collapse": {
+    "message": "سائڈ بار کو سکیڑیں",
+    "description": "The ARIA label and title attribute for collapse button of doc sidebar"
+  },
+  "theme.docs.sidebar.responsiveClose": {
+    "message": "مینو بند کریں",
+    "description": "The ARIA label and title attribute for close button of mobile doc sidebar"
+  },
+  "theme.docs.sidebar.responsiveOpen": {
+    "message": "مینو کھولیں",
+    "description": "The ARIA label and title attribute for open button of mobile doc sidebar"
+  }
+}

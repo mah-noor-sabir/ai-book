@@ -1,0 +1,18 @@
+{
+  "home": {
+    "message": "ہوم",
+    "description": "Home link"
+  },
+  "exploreTheBook": {
+    "message": "کتاب کا مطالعہ کریں",
+    "description": "Explore the Book link"
+  },
+  "chapters": {
+    "message": "ابواب",
+    "description": "Chapters dropdown"
+  },
+  "github": {
+    "message": "گیتھب",
+    "description": "GitHub link"
+  }
+}

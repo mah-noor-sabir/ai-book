@@ -1,105 +1,146 @@
-import { useState, useRef, useEffect } from 'react';
-import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
-import './chat.css';
+import React, { useState } from 'react';
+import './Chat.css';
 
-export default function ChatWidget() {
-  const [open, setOpen] = useState(false);
+const ChatWidget = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const chatBodyRef = useRef(null);
-
-  // Auto-scroll to latest message
-  useEffect(() => {
-    chatBodyRef.current?.scrollTo(0, chatBodyRef.current.scrollHeight);
-  }, [messages, loading]);
+  const toggleChat = () => setIsOpen(!isOpen);
 
   const sendMessage = async () => {
-    const trimmedInput = input.trim();
-    if (!trimmedInput) return;
+    if (!inputValue.trim() || isLoading) return;
 
-    const userMessage = { id: uuidv4(), sender: "user", text: trimmedInput };
+    const userMessage = {
+      text: inputValue,
+      sender: 'user',
+      timestamp: new Date().toLocaleTimeString()
+    };
     setMessages(prev => [...prev, userMessage]);
-    setInput("");
-    setLoading(true);
+    setInputValue('');
+    setIsLoading(true);
 
     try {
-      console.log("Sending message:", trimmedInput);
+      const response = await fetch('https://mahnoor-sabir-book.hf.space/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: inputValue })
+      });
+      const data = await response.json();
 
-      const res = await axios.post(
-        "https://mahnoor-sabir-deploy-ai-book.hf.space/api/chat", // Adjust endpoint if needed
-        { message: trimmedInput },
-        { headers: { 'Content-Type': 'application/json' } }
-      );
-
-      console.log("Response received:", res);
-
-      const botReply = res.data.reply || res.data.response || res.data.message || "No response from server";
-      const botMessage = { id: uuidv4(), sender: "bot", text: botReply };
+      const botMessage = data.answer
+        ? {
+            text: data.answer,
+            sender: 'bot',
+            timestamp: new Date().toLocaleTimeString(),
+            sources: data.sources || [],
+            confidence: data.confidence
+          }
+        : {
+            text: data.error || 'Sorry, I could not process your request.',
+            sender: 'bot',
+            timestamp: new Date().toLocaleTimeString()
+          };
 
       setMessages(prev => [...prev, botMessage]);
-    } catch (err) {
-      console.error("Chat error:", err);
-
-      const errorMsg = err.response?.data?.error || err.message || "Unable to reach server";
-      setMessages(prev => [...prev, { 
-        id: uuidv4(),
-        sender: "bot",
-        text: `Error: ${errorMsg}`
-      }]);
+    } catch (error) {
+      setMessages(prev => [
+        ...prev,
+        {
+          text: 'Error connecting to the server. Please try again later.',
+          sender: 'bot',
+          timestamp: new Date().toLocaleTimeString()
+        }
+      ]);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && !loading) {
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
       sendMessage();
     }
   };
 
   return (
-    <div className="chat-container">
-      <button className="chat-button" onClick={() => setOpen(!open)}>
-        💬 Chat
+    <div className={`chat-widget ${isOpen ? 'chat-open' : 'chat-closed'}`}>
+      <button className="chat-toggle" onClick={toggleChat}>
+        {isOpen ? (
+          <span className="chat-close"><img
+            className="chat-close"
+            src="img/drop.jpeg"
+            alt="Chat Icon"
+          /></span>
+        ) : (
+          <img
+            className="chat-icon"
+            src="img/chat.jpeg"
+            alt="Chat Icon"
+          />
+        )}
       </button>
 
-      {open && (
-        <div className="chat-box">
-          <div className="chat-header">
-            <strong>AI Assistant</strong>
-          </div>
-
-          <div className="chat-body" ref={chatBodyRef}>
-            {messages.map((m) => (
-              <div key={m.id} className={`bubble ${m.sender}`}>
-                {m.text}
+      {isOpen && (
+        <div className="chat-container">
+          <div className="chat-messages">
+            {messages.length === 0 ? (
+              <div className="welcome-message">
+                <p>Hello! I'm your AI assistant. How can I help you today?</p>
               </div>
-            ))}
-            {loading && (
-              <div className="bubble bot">
-                <em>Typing...</em>
+            ) : (
+              messages.map((message, index) => (
+                <div key={index} className={`message ${message.sender}-message`}>
+                  <div className="message-content">
+                    <p>{message.text}</p>
+                    {message.sources && message.sources.length > 0 && (
+                      <div className="message-sources">
+                        <small>Sources: {message.sources.slice(0, 2).join(', ')}</small>
+                      </div>
+                    )}
+                    {message.confidence && (
+                      <div className="message-confidence">
+                        <small>Confidence: {message.confidence}</small>
+                      </div>
+                    )}
+                  </div>
+                  <span className="message-time">{message.timestamp}</span>
+                </div>
+              ))
+            )}
+            {isLoading && (
+              <div className="message bot-message">
+                <div className="message-content">
+                  <p>Thinking...</p>
+                </div>
+                <span className="message-time">{new Date().toLocaleTimeString()}</span>
               </div>
             )}
           </div>
 
-          <div className="chat-input">
-            <input
-              type="text"
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="Type message..."
-              disabled={loading}
+          <div className="chat-input-area">
+            <textarea
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Type your message..."
+              rows="2"
+              disabled={isLoading}
             />
-            <button type="button" onClick={sendMessage} disabled={loading}>
-              {loading ? "..." : "Send"}
+            <button
+              onClick={sendMessage}
+              disabled={isLoading || !inputValue.trim()}
+              className="send-button"
+            >
+              {isLoading ? 'Sending...' : 'Send'}
             </button>
           </div>
         </div>
       )}
     </div>
   );
-}
+};
+
+export default ChatWidget;
