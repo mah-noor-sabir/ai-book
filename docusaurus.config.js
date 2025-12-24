@@ -4,7 +4,7 @@ import { themes as prismThemes } from 'prism-react-renderer';
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'AI Robotics Book',
-  tagline: 'A hands-on journey into humanoid robotics and embodied AI',
+  tagline: 'Explore the world of Physical AI and Humanoid Robotics',
 
   url: 'https://physical-humanoid-robotics.com',
   baseUrl: '/',
@@ -14,21 +14,15 @@ const config = {
 
   favicon: 'img/robotremove.jpeg',
 
-  organizationName: 'your-org',
-  projectName: 'ai-robotics-book',
+  organizationName: 'your-org', // GitHub org/user name
+  projectName: 'ai-robotics-book', // Repo name
 
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'ur'],
     localeConfigs: {
-      en: {
-        label: 'English',
-        direction: 'ltr',
-      },
-      ur: {
-        label: 'اردو',
-        direction: 'rtl',
-      },
+      en: { label: 'English', direction: 'ltr' },
+      ur: { label: 'اردو', direction: 'rtl' },
     },
   },
 
@@ -38,8 +32,8 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
           routeBasePath: 'docs',
+          sidebarPath: require.resolve('./sidebars.js'),
           showLastUpdateTime: true,
           showLastUpdateAuthor: true,
         },
@@ -57,22 +51,17 @@ const config = {
       image: 'img/docusaurus-social-card.jpg',
 
       colorMode: {
+        defaultMode: 'light',
         respectPrefersColorScheme: true,
       },
 
       navbar: {
         title: 'AI Robotics Book',
         logo: {
-          alt: 'AI Book Logo',
+          alt: 'AI Robotics Logo',
           src: 'img/robotremove.jpeg',
         },
         items: [
-          {
-            type: 'doc',
-            docId: 'intro',
-            label: 'Explore the Book',
-            position: 'left',
-          },
           {
             type: 'doc',
             docId: 'intro',
@@ -84,7 +73,7 @@ const config = {
             position: 'right',
           },
           {
-            href: 'https://github.com/your-org/ai-robotics-book',
+            href: 'https://github.com/mah-noor-sabir',
             label: 'GitHub',
             position: 'right',
           },
@@ -97,26 +86,8 @@ const config = {
           {
             title: 'Docs',
             items: [
-              {
-                label: 'Introduction',
-                to: '/docs',
-              },
-              {
-                label: 'Module 1: Introduction to Physical AI',
-                to: '/docs/Module 1 - introduction-to-physical-ai/foundations-of-physical-ai-and-embodied-intelligence',
-              },
-              {
-                label: 'Module 2: Robotic Nervous System',
-                to: '/docs/Module 2 - Robotic-Nervous-System/robotic-nervous-system',
-              },
-              {
-                label: 'Module 3: Digital Twin',
-                to: '/docs/Module 3 -Digital Twin/introduction-to-digital-twins',
-              },
-              {
-                label: 'Module 4: The AI Robot Brain (NVIDIA Isaac)',
-                to: '/docs/Module_4_-_The_AI_Robot_Brain_NVIDIA_Isaac/introduction-to-isaac-ecosystem',
-              },
+              { label: 'Introduction', to: '/docs' },
+              
             ],
           },
           {
@@ -124,12 +95,12 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/your-org/ai-robotics-book',
+                href: 'https://github.com/mah-noor-sabir',
               },
             ],
           },
         ],
-        copyright: `© ${new Date().getFullYear()} AI Robotics Book.`,
+        copyright: `© ${new Date().getFullYear()} Physical AI & Humanoid Robotics Book 🤖 • Made with ❤️ for curious minds`,
       },
 
       prism: {

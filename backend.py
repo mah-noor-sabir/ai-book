@@ -325,27 +325,17 @@ async def health_check():
 
 @app.post("/chat")
 async def chat_endpoint(request: Request):
-    """API endpoint for chat functionality (if needed for more advanced integration)"""
+    """API endpoint for chat functionality - This should connect to the real RAG backend"""
     try:
         body = await request.json()
         user_message = body.get("message", "")
 
-        # This is a mock response - in a real implementation, you would process the message with your AI model
-        responses = [
-            "That's a great question about the book! The Physical AI and Humanoid Robotics book covers advanced concepts in embodied AI.",
-            "I can help you understand that topic better. Check chapter 3 for more details on sensorimotor learning.",
-            "Interesting question! The book discusses this in the context of physical intelligence and embodied cognition.",
-            "Great point! The book explores how physical AI systems can learn from interaction with their environment through active sensing.",
-            "I recommend checking the section on humanoid robotics for more information on motor control and learning."
-        ]
-
-        import random
-        response_text = random.choice(responses)
-
+        # In a real implementation, you would process the message with your AI model
+        # For now, return an error indicating this is not implemented
         return JSONResponse(content={
-            "response": response_text,
-            "status": "success"
-        })
+            "response": "Chat endpoint not implemented in this service. Use /ask endpoint for RAG queries.",
+            "status": "error"
+        }, status_code=501)
     except Exception as e:
         return JSONResponse(content={
             "response": "Sorry, I encountered an error processing your request.",

@@ -1,16 +1,8 @@
 import React from 'react';
-import clsx from 'clsx';
-import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
-import Heading from '@theme/Heading';
 import ChatWidget from '@site/src/components/ChatWidget';
-import styles from './index.module.css';
-
-function HomepageHeader() {
-  const { siteConfig } = useDocusaurusContext();
-}
 
 export default function Home() {
   const { siteConfig } = useDocusaurusContext();
@@ -20,10 +12,11 @@ export default function Home() {
       title={`Welcome to ${siteConfig.title}`}
       description="Your all-in-one AI book for learning and experimentation"
     >
-      <HomepageHeader />
-      <main>
+        <main>
         <HomepageFeatures />
       </main>
+
+      {/* Chat widget rendered on all pages */}
       <ChatWidget />
     </Layout>
   );

@@ -5,17 +5,14 @@
  */
 const sidebars = {
   bookSidebar: [
-
+    // Introduction
     {
       type: 'doc',
       id: 'intro',
       label: 'Introduction',
     },
-    {
-      type: 'doc',
-      id: 'chatbot',
-      label: 'AI Assistant',
-    },
+
+    // Module 1
     {
       type: 'category',
       label: 'Module 1: Introduction to Physical AI',
@@ -28,6 +25,7 @@ const sidebars = {
       ],
     },
 
+    // Module 2
     {
       type: 'category',
       label: 'Module 2: Robotic Nervous System',
@@ -45,6 +43,7 @@ const sidebars = {
       ],
     },
 
+    // Module 3
     {
       type: 'category',
       label: 'Module 3: Digital Twin',
@@ -60,6 +59,7 @@ const sidebars = {
       ],
     },
 
+    // Module 4
     {
       type: 'category',
       label: 'Module 4: The AI Robot Brain (NVIDIA Isaac)',
@@ -75,6 +75,13 @@ const sidebars = {
         'Module_4_-_The_AI_Robot_Brain_NVIDIA_Isaac/end-to-end-workflows',
         'Module_4_-_The_AI_Robot_Brain_NVIDIA_Isaac/quickstart-guide',
       ],
+    },
+
+    // AI Assistant
+    {
+      type: 'doc',
+      id: 'chatbot',
+      label: 'AI Assistant',
     },
   ],
 };
