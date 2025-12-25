@@ -14,5 +14,21 @@
   "github": {
     "message": "گیتھب",
     "description": "GitHub link"
+  },
+  "title": {
+    "message": "AI Robotics Book",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "AI Robotics Logo",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Chapters": {
+    "message": "Chapters",
+    "description": "Navbar item with label Chapters"
+  },
+  "item.label.GitHub": {
+    "message": "GitHub",
+    "description": "Navbar item with label GitHub"
   }
 }

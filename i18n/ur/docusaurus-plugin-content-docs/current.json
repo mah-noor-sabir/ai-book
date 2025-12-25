@@ -1,6 +1,26 @@
 {
   "version.label": {
     "message": "کتاب",
-    "description": "The label for version in the navbar"
+    "description": "The label for version current"
+  },
+  "sidebar.bookSidebar.category.Module 1: Introduction to Physical AI": {
+    "message": "Module 1: Introduction to Physical AI",
+    "description": "The label for category 'Module 1: Introduction to Physical AI' in sidebar 'bookSidebar'"
+  },
+  "sidebar.bookSidebar.category.Module 2: Robotic Nervous System": {
+    "message": "Module 2: Robotic Nervous System",
+    "description": "The label for category 'Module 2: Robotic Nervous System' in sidebar 'bookSidebar'"
+  },
+  "sidebar.bookSidebar.category.Module 3: Digital Twin": {
+    "message": "Module 3: Digital Twin",
+    "description": "The label for category 'Module 3: Digital Twin' in sidebar 'bookSidebar'"
+  },
+  "sidebar.bookSidebar.category.Module 4: The AI Robot Brain (NVIDIA Isaac)": {
+    "message": "Module 4: The AI Robot Brain (NVIDIA Isaac)",
+    "description": "The label for category 'Module 4: The AI Robot Brain (NVIDIA Isaac)' in sidebar 'bookSidebar'"
+  },
+  "sidebar.bookSidebar.doc.Introduction": {
+    "message": "Introduction",
+    "description": "The label for the doc item 'Introduction' in sidebar 'bookSidebar', linking to the doc intro"
   }
 }

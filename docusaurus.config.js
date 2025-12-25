@@ -10,12 +10,17 @@ const config = {
   baseUrl: '/',
 
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
+  },
 
   favicon: 'img/robotremove.jpeg',
 
-  organizationName: 'your-org', // GitHub org/user name
-  projectName: 'ai-robotics-book', // Repo name
+  organizationName: 'your-org',
+  projectName: 'ai-robotics-book',
 
   i18n: {
     defaultLocale: 'en',
@@ -32,7 +37,7 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          routeBasePath: 'docs',
+          routeBasePath: 'docs', // /docs and /ur/docs
           sidebarPath: require.resolve('./sidebars.js'),
           showLastUpdateTime: true,
           showLastUpdateAuthor: true,
@@ -86,8 +91,7 @@ const config = {
           {
             title: 'Docs',
             items: [
-              { label: 'Introduction', to: '/docs' },
-              
+              { label: 'Introduction', to: '/docs/intro' },
             ],
           },
           {
