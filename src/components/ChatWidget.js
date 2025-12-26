@@ -3,11 +3,10 @@ import { FiSend, FiMoreVertical, FiTrash2, FiClock, FiCopy } from 'react-icons/f
 import './Chat.css';
 
 const ChatWidget = () => {
+  const isSSR = typeof window === "undefined"; // detect SSR
+
   // Chat open state
-  const [isOpen, setIsOpen] = useState(() => {
-    const savedOpenState = localStorage.getItem("chat_open_state");
-    return savedOpenState ? JSON.parse(savedOpenState) : false;
-  });
+  const [isOpen, setIsOpen] = useState(false); // default false
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -18,27 +17,31 @@ const ChatWidget = () => {
   const messagesEndRef = useRef(null);
   const menuRef = useRef(null);
 
-  // Detect system theme
   const [isLightMode, setIsLightMode] = useState(false);
+
+  // Only access window/localStorage inside useEffect
   useEffect(() => {
+    // Load saved chat open state
+    const savedOpenState = localStorage.getItem("chat_open_state");
+    if (savedOpenState) setIsOpen(JSON.parse(savedOpenState));
+
+    // Load chat history
+    const savedMessages = localStorage.getItem("chat_messages");
+    if (savedMessages) setMessages(JSON.parse(savedMessages));
+
+    // Detect system theme
     const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
     setIsLightMode(!darkMode);
   }, []);
 
-  // Load chat history
-  useEffect(() => {
-    const savedMessages = localStorage.getItem("chat_messages");
-    if (savedMessages) setMessages(JSON.parse(savedMessages));
-  }, []);
-
   // Save chat history
   useEffect(() => {
-    if (messages.length > 0) localStorage.setItem("chat_messages", JSON.stringify(messages));
+    if (!isSSR && messages.length > 0) localStorage.setItem("chat_messages", JSON.stringify(messages));
   }, [messages]);
 
   // Save chat open state
   useEffect(() => {
-    localStorage.setItem("chat_open_state", JSON.stringify(isOpen));
+    if (!isSSR) localStorage.setItem("chat_open_state", JSON.stringify(isOpen));
   }, [isOpen]);
 
   // Auto-scroll
@@ -115,14 +118,16 @@ const ChatWidget = () => {
   };
 
   const handleCopy = (text, index) => {
-    navigator.clipboard.writeText(text);
-    setCopiedIndex(index);
-    setTimeout(() => setCopiedIndex(null), 2000);
+    if (!isSSR) {
+      navigator.clipboard.writeText(text);
+      setCopiedIndex(index);
+      setTimeout(() => setCopiedIndex(null), 2000);
+    }
   };
 
   const deleteChat = () => {
     setMessages([]);
-    localStorage.removeItem("chat_messages");
+    if (!isSSR) localStorage.removeItem("chat_messages");
   };
 
   return (
