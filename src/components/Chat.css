@@ -304,3 +304,10 @@
 .chat-widget.light-mode .copy-icon {
   color: #0072ff !important;
 }
+/* Optional: Smooth appearance */
+.chat-container {
+  transition: all 0.3s ease;
+}
+
+/* Existing CSS remains unchanged */
+

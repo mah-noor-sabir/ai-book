@@ -3,13 +3,18 @@ import { FiSend, FiMoreVertical, FiTrash2, FiClock, FiCopy } from 'react-icons/f
 import './Chat.css';
 
 const ChatWidget = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  // Chat open state
+  const [isOpen, setIsOpen] = useState(() => {
+    const savedOpenState = localStorage.getItem("chat_open_state");
+    return savedOpenState ? JSON.parse(savedOpenState) : false;
+  });
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState(null);
+
   const messagesEndRef = useRef(null);
   const menuRef = useRef(null);
 
@@ -31,6 +36,11 @@ const ChatWidget = () => {
     if (messages.length > 0) localStorage.setItem("chat_messages", JSON.stringify(messages));
   }, [messages]);
 
+  // Save chat open state
+  useEffect(() => {
+    localStorage.setItem("chat_open_state", JSON.stringify(isOpen));
+  }, [isOpen]);
+
   // Auto-scroll
   const scrollToBottom = () => {
     if (messagesEndRef.current) messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -42,14 +52,13 @@ const ChatWidget = () => {
   const toggleHistory = () => setHistoryOpen(!historyOpen);
 
   // Close dropdown when clicking outside
-  const handleClickOutside = (e) => {
-    if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false);
-  };
   useEffect(() => {
-    if (menuOpen) document.addEventListener('click', handleClickOutside);
-    else document.removeEventListener('click', handleClickOutside);
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false);
+    };
+    document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
-  }, [menuOpen]);
+  }, []);
 
   const greetings = {
     hi: "Hello! 👋 How can I help you with robotics today?",
@@ -121,12 +130,14 @@ const ChatWidget = () => {
       {/* Toggle Button */}
       <div className="chat-toggle-wrapper">
         <button className="chat-toggle" onClick={toggleChat}>
-          {isOpen
-            ? <img src="../img/drop.jpeg" alt="Close Chat" />
-            : <img src="../img/chat.jpeg" alt="Open Chat" />}
+          <img
+            src={isOpen ? "/img/drop.jpeg" : "/img/chat.jpeg"}
+            alt={isOpen ? "Chat Open" : "Chat Closed"}
+          />
         </button>
       </div>
 
+      {/* Chat Container */}
       {isOpen && (
         <div className="chat-container">
           {/* Header */}
@@ -158,9 +169,8 @@ const ChatWidget = () => {
               <div className="welcome-message">
                 <p><strong>Hello! 👋</strong> I’m your AI assistant for the <strong>Physical AI and Humanoid Robotics</strong> book.</p>
                 <ul>
-                  <li>• Ask me questions about any topic</li>
-                  <li>• Select text and click <strong>“Select Text”</strong> to ask about it</li>
-                  <li>• Get answers backed by the book’s content</li>
+                  <li>Ask me questions about any topic</li>
+                  <li>Get answers backed by the book’s content</li>
                 </ul>
               </div>
             )}
