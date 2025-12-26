@@ -3,11 +3,9 @@ import { FiSend, FiMoreVertical, FiTrash2, FiClock, FiCopy } from 'react-icons/f
 import './Chat.css';
 
 const ChatWidget = () => {
-  const isSSR = typeof window === "undefined"; // detect SSR
-
-  // Chat open state
-  const [isOpen, setIsOpen] = useState(false); // default false
-  const [messages, setMessages] = useState([]);
+  // Chat state
+  const [isOpen, setIsOpen] = useState(() => JSON.parse(localStorage.getItem("chat_open_state")) || false);
+  const [messages, setMessages] = useState(() => JSON.parse(localStorage.getItem("chat_messages")) || []);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -17,52 +15,38 @@ const ChatWidget = () => {
   const messagesEndRef = useRef(null);
   const menuRef = useRef(null);
 
+  // Detect system theme
   const [isLightMode, setIsLightMode] = useState(false);
-
-  // Only access window/localStorage inside useEffect
   useEffect(() => {
-    // Load saved chat open state
-    const savedOpenState = localStorage.getItem("chat_open_state");
-    if (savedOpenState) setIsOpen(JSON.parse(savedOpenState));
-
-    // Load chat history
-    const savedMessages = localStorage.getItem("chat_messages");
-    if (savedMessages) setMessages(JSON.parse(savedMessages));
-
-    // Detect system theme
     const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
     setIsLightMode(!darkMode);
   }, []);
 
-  // Save chat history
-  useEffect(() => {
-    if (!isSSR && messages.length > 0) localStorage.setItem("chat_messages", JSON.stringify(messages));
-  }, [messages]);
+  // Persist chat messages and open state
+  useEffect(() => localStorage.setItem("chat_messages", JSON.stringify(messages)), [messages]);
+  useEffect(() => localStorage.setItem("chat_open_state", JSON.stringify(isOpen)), [isOpen]);
 
-  // Save chat open state
-  useEffect(() => {
-    if (!isSSR) localStorage.setItem("chat_open_state", JSON.stringify(isOpen));
-  }, [isOpen]);
-
-  // Auto-scroll
+  // Auto-scroll to bottom
   const scrollToBottom = () => {
-    if (messagesEndRef.current) messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
   useEffect(() => { scrollToBottom(); }, [messages, isLoading]);
 
+  // Toggle chat, menu, history
   const toggleChat = () => setIsOpen(!isOpen);
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const toggleHistory = () => setHistoryOpen(!historyOpen);
 
-  // Close dropdown when clicking outside
+  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false);
     };
-    document.addEventListener('click', handleClickOutside);
+    if (menuOpen) document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
-  }, []);
+  }, [menuOpen]);
 
+  // Greetings fallback
   const greetings = {
     hi: "Hello! 👋 How can I help you with robotics today?",
     hello: "Hi there! I’m your AI Robotics Assistant.",
@@ -71,63 +55,80 @@ const ChatWidget = () => {
     goodnight: "Good night! Don’t forget to dream of robots 🤖."
   };
 
-  const getBackendURL = () => 'http://127.0.0.1:8000/ask';
+  // Backend URL
+  const getBackendURL = () => 'https://mahnoor-sabir-book.hf.space/ask';
 
+  // Send message
   const sendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
 
-    const userText = inputValue.trim().toLowerCase();
-    const userMessage = { text: inputValue, sender: "user", timestamp: new Date().toISOString() };
+    const userText = inputValue.trim();
+    const userTextLower = userText.toLowerCase();
+    const userMessage = { text: userText, sender: "user", timestamp: new Date().toISOString() };
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
 
+    // Check greetings
     for (const key in greetings) {
-      if (userText.includes(key)) {
+      if (userTextLower.includes(key)) {
         const botMessage = { text: greetings[key], sender: "bot", timestamp: new Date().toISOString() };
         setMessages(prev => [...prev, botMessage]);
         return;
       }
     }
 
+    // Send to backend
     setIsLoading(true);
     try {
       const response = await fetch(getBackendURL(), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: userText }),
+        mode: 'cors',
       });
+
       if (!response.ok) throw new Error(`Server error: ${response.status}`);
       const data = await response.json();
+
       const fallback = [
         "Hmm, I’m not sure about that, but let’s explore it together! 🤖",
         "Interesting question! I’ll learn more about it next time.",
         "Haha, I don’t know that yet, but I’m always learning!",
         "That’s a curious one! Let’s keep discovering together."
       ];
+
       const botMessage = data.answer && data.answer.trim() !== ""
         ? { text: data.answer, sender: "bot", timestamp: new Date().toISOString() }
         : { text: fallback[Math.floor(Math.random() * fallback.length)], sender: "bot", timestamp: new Date().toISOString() };
+
       setMessages(prev => [...prev, botMessage]);
     } catch (error) {
+      console.error("SendMessage error:", error);
       setMessages(prev => [...prev, { text: 'Error connecting to server.', sender: 'bot', timestamp: new Date().toISOString() }]);
-    } finally { setIsLoading(false); }
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
-  };
-
-  const handleCopy = (text, index) => {
-    if (!isSSR) {
-      navigator.clipboard.writeText(text);
-      setCopiedIndex(index);
-      setTimeout(() => setCopiedIndex(null), 2000);
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  // Enter key handler
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
+
+  // Copy message
+  const handleCopy = (text, index) => {
+    navigator.clipboard.writeText(text);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000);
+  };
+
+  // Delete chat
   const deleteChat = () => {
     setMessages([]);
-    if (!isSSR) localStorage.removeItem("chat_messages");
+    localStorage.removeItem("chat_messages");
   };
 
   return (
@@ -135,14 +136,10 @@ const ChatWidget = () => {
       {/* Toggle Button */}
       <div className="chat-toggle-wrapper">
         <button className="chat-toggle" onClick={toggleChat}>
-          <img
-            src={isOpen ? "/img/drop.jpeg" : "/img/chat.jpeg"}
-            alt={isOpen ? "Chat Open" : "Chat Closed"}
-          />
+          <img src={isOpen ? "/img/drop.jpeg" : "/img/chat.jpeg"} alt={isOpen ? "Close Chat" : "Open Chat"} />
         </button>
       </div>
 
-      {/* Chat Container */}
       {isOpen && (
         <div className="chat-container">
           {/* Header */}
@@ -175,6 +172,7 @@ const ChatWidget = () => {
                 <p><strong>Hello! 👋</strong> I’m your AI assistant for the <strong>Physical AI and Humanoid Robotics</strong> book.</p>
                 <ul>
                   <li>Ask me questions about any topic</li>
+                  <li>Select text and click <strong>“Select Text”</strong> to ask about it</li>
                   <li>Get answers backed by the book’s content</li>
                 </ul>
               </div>
@@ -192,8 +190,7 @@ const ChatWidget = () => {
                   <div className="copy-icon-wrapper">
                     {copiedIndex === index
                       ? <span className="copy-icon">✔</span>
-                      : <FiCopy className="copy-icon" onClick={() => handleCopy(message.text, index)} title="Copy Answer" />
-                    }
+                      : <FiCopy className="copy-icon" onClick={() => handleCopy(message.text, index)} title="Copy Answer" />}
                   </div>
                 )}
               </div>
@@ -201,12 +198,10 @@ const ChatWidget = () => {
 
             {isLoading && (
               <div className="message bot-message">
-                <div className="message-content">
-                  <p>AI is typing...</p>
-                  <span className="message-time">{new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                </div>
+                <p>AI is typing...</p>
               </div>
             )}
+
             <div ref={messagesEndRef} />
           </div>
 
@@ -215,7 +210,7 @@ const ChatWidget = () => {
             <textarea
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyDown}
               placeholder="Type your message..."
               rows="2"
               disabled={isLoading}
